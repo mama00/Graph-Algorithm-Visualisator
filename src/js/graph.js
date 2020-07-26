@@ -101,10 +101,12 @@ function dfs(graph,origin,destination,viewed,parents){
     viewed.push(origin)
     let temp_org=origin
     let pp=[origin]
+    //backtrack the path
     while (parents[temp_org]!=-1){
         pp.push(parents[temp_org])
         temp_org=parents[temp_org]
     }
+    //insert the path in scenario to reproduct what the algo did
     scenario.push(pp)
     for(let i=0;i<graph[origin].length;i++){
         if (graph[origin][i]==destination){

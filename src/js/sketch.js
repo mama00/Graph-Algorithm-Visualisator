@@ -16,6 +16,36 @@ let sel
 let button
 let mode_button=0 //0 normal 1 wall
 
+//Helpers functions/////////////////////////////////
+function draw_points(points,color=123){
+    for(let i=0;i<points.length;i++){
+        fill(color);
+        rect(points[i].x*40,points[i].y*40,40,40)
+    }
+}
+function draw_board(){
+    for(let i=0;i<16;i++){
+        line(i*40,0,i*40,600)
+        line(0,i*40,600,i*40)
+    }
+}
+
+function draw_scenario(){
+        fill('Red');
+        if (scenario.length>0){
+            for(let i=0;i<scenario[index_scenario].length;i++){
+    
+                posx=int(scenario[index_scenario][i]/15)
+                posy=scenario[index_scenario][i]%15
+                rect(posy*40+10,posx*40+10,10,10)
+            }
+            index_scenario++
+            if(index_scenario==scenario.length){
+                index_scenario--
+                noLoop()
+            }
+        }
+}
 
 function convert_to_point(value){
     posx=int(value/15)
@@ -37,21 +67,6 @@ function draw_neighbor(point){
         rect(posy*40,posx*40,40,40)
     }
 }
-function setup(){
-    frameRate(5)
-    createCanvas(600,600)
-    sel = createSelect();
-    sel.position(10, 10);
-    sel.option('Breadth first search');
-    sel.option('Depth first search');
-    sel.position(40,620)
-    sel.changed(reset_screen)
-    button=createButton("Create Wall")
-    button.position(280,620)
-    button.mousePressed(wall_selected)
-    graph=generate_graph()
-
-    }
 
 function wall_selected(){
     mode_button= mode_button ^ 1
@@ -70,6 +85,25 @@ function reset_screen(){
     redraw()
     loop()
 }
+/////////////////////////////////////////////////////
+
+//p5.js code//////////////////////
+function setup(){
+    frameRate(5)
+    createCanvas(600,600)
+    sel = createSelect();
+    sel.position(10, 10);
+    sel.option('Breadth first search');
+    sel.option('Depth first search');
+    sel.position(40,620)
+    sel.changed(reset_screen)
+    button=createButton("Create Wall")
+    button.position(280,620)
+    button.mousePressed(wall_selected)
+    graph=generate_graph()
+
+    }
+
 
 function mouseClicked(){
     let posx=int(mouseX/40);
@@ -108,35 +142,7 @@ function mouseClicked(){
 
 }
 
-function draw_points(points,color=123){
-    for(let i=0;i<points.length;i++){
-        fill(color);
-        rect(points[i].x*40,points[i].y*40,40,40)
-    }
-}
-function draw_board(){
-    for(let i=0;i<16;i++){
-        line(i*40,0,i*40,600)
-        line(0,i*40,600,i*40)
-    }
-}
 
-function draw_scenario(){
-        fill('Red');
-        if (scenario.length>0){
-            for(let i=0;i<scenario[index_scenario].length;i++){
-    
-                posx=int(scenario[index_scenario][i]/15)
-                posy=scenario[index_scenario][i]%15
-                rect(posy*40+10,posx*40+10,10,10)
-            }
-            index_scenario++
-            if(index_scenario==scenario.length){
-                index_scenario--
-                noLoop()
-            }
-        }
-}
 function draw(){
     background(255)
     draw_board()
